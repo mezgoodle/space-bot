@@ -1,0 +1,36 @@
+{
+  "name": "space-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for showing information from SpaceX API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "lint": "eslint ./",
+    "lint:fix": "eslint ./ --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mezgoodle/space-bot.git"
+  },
+  "keywords": [
+    "nodejs",
+    "graphql",
+    "telegram",
+    "bot",
+    "api"
+  ],
+  "author": "Maxim Zavalniuk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mezgoodle/space-bot/issues"
+  },
+  "homepage": "https://github.com/mezgoodle/space-bot#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "node-telegram-bot-api": "^0.50.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.1.0"
+  }
+}
