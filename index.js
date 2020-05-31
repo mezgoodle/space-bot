@@ -1,8 +1,8 @@
 'use strict';
 
 const TelegramBot = require('node-telegram-bot-api');
+const axios = require('axios');
 const { Token } = require('./config');
-const schema = require('./schema');
 
 // Create a bot that uses 'polling' to fetch new updates.
 // It`s for development
@@ -19,13 +19,20 @@ const bot = new TelegramBot(Token, { polling: true });
 //   bot.setWebHook(`${url}/bot${Token}`);
 // =============
 
-bot.onText(/\/echo (.+)/, (msg, match) => {
+bot.onText(/\/rocket (.+)/, (msg, match) => {
   const chatId = msg.chat.id;
   const resp = match[1];
   bot.sendMessage(chatId, resp);
 });
 
-bot.on('message', msg => {
+bot.onText(/\/rockets/, msg => {
   const chatId = msg.chat.id;
-  bot.sendMessage(chatId, 'Received your message');
+  axios.get('https://api.spacexdata.com/v3/rockets')
+    .then(resp => console.log(resp.data));
+  bot.sendMessage(chatId, resp);
 });
+
+// bot.on('message', msg => {
+//   const chatId = msg.chat.id;
+//   bot.sendMessage(chatId, 'Received your message');
+// });
