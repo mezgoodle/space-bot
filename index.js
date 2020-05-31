@@ -1,3 +1,5 @@
 'use strict';
 
-console.log('Hello');
+const { Token } = require('./config');
+
+console.log(Token);
