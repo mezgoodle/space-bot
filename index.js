@@ -2,6 +2,7 @@
 
 const TelegramBot = require('node-telegram-bot-api');
 const { Token } = require('./config');
+const schema = require('./schema');
 
 // Create a bot that uses 'polling' to fetch new updates.
 // It`s for development
