@@ -15,7 +15,6 @@
   },
   "keywords": [
     "nodejs",
-    "graphql",
     "telegram",
     "bot",
     "api"
@@ -29,7 +28,6 @@
   "dependencies": {
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
-    "graphql": "^15.0.0",
     "node-telegram-bot-api": "^0.50.0"
   },
   "devDependencies": {
