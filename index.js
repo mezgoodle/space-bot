@@ -4,6 +4,15 @@ const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const { Token } = require('./config');
 
+const urls = {
+  'rockets': 'https://api.spacexdata.com/v3/rockets',
+};
+
+const emojies = {
+  'true': '✔️',
+  'false': '❌'
+};
+
 // Create a bot that uses 'polling' to fetch new updates.
 // It`s for development
 const bot = new TelegramBot(Token, { polling: true });
@@ -21,36 +30,49 @@ const bot = new TelegramBot(Token, { polling: true });
 
 // Template for weather response
 const rocketHTMLTemplate = rocket => (
-  `☝<b>${rocket.rocket_name}</b>
-    Active: <b>${rocket.active}</b>
-    First flight: <b>${rocket.first_flight}</b>
-    Country: <b>${rocket.country}</b>
-    Description: <b>${rocket.description}</b>
-    Wikipedia: <a href="${rocket.wikipedia}">link</a>
+  `🚀<b>${rocket.rocket_name}</b>
+   🆔Rocket ID: ${rocket.rocket_id}
+    Active: ${emojies[rocket.active]}
+   🔥First flight: <b>${rocket.first_flight}</b>
+   🏠Country: <b>${rocket.country}</b>
+   📚Description: <b>${rocket.description}</b>
+   🔗Wikipedia: <a href="${rocket.wikipedia}">link</a>
   `
 );
 
+const getInfo = (url, rocket = null, chatId) => {
+  if (rocket) {
+    axios.get(url + `/${rocket}`)
+      .then(resp => bot.sendMessage(chatId, rocketHTMLTemplate(resp.data), { parse_mode: 'HTML' }))
+      .catch(err => {
+        bot.sendMessage(chatId, `Ooops...I could get weather information about ${rocket}`);
+        console.log(err);
+      });
+  } else {
+    axios.get(url)
+      .then(resp => {
+        for (const rocket of resp.data) {
+          bot.sendMessage(chatId, rocketHTMLTemplate(rocket), { parse_mode: 'HTML' });
+        }
+      })
+      .catch(err => {
+        bot.sendMessage(chatId, 'Ooops...I could get weather information about rockets');
+        console.log(err);
+      });
+  }
+};
+
 bot.onText(/\/rocket (.+)/, (msg, match) => {
   const chatId = msg.chat.id;
-  const resp = match[1];
-  bot.sendMessage(chatId, resp);
+  const rocket = match[1];
+  if (rocket === undefined) {
+    bot.sendMessage(chatId, 'Please provide rocket name');
+    return;
+  }
+  getInfo(urls['rockets'], rocket.toLowerCase(), chatId);
 });
 
 bot.onText(/\/rockets/, msg => {
   const chatId = msg.chat.id;
-  axios.get('https://api.spacexdata.com/v3/rockets')
-    .then(resp => {
-      for (const rocket of resp.data) {
-        bot.sendMessage(chatId, rocketHTMLTemplate(rocket), { parse_mode: 'HTML' });
-      }
-    })
-    .catch(err => {
-      bot.sendMessage(chatId, 'Ooops...I could get weather information about rockets');
-      console.log(err);
-    });
+  getInfo(urls['rockets'], null, chatId);
 });
-
-// bot.on('message', msg => {
-//   const chatId = msg.chat.id;
-//   bot.sendMessage(chatId, 'Received your message');
-// });
