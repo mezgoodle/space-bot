@@ -19,6 +19,17 @@ const bot = new TelegramBot(Token, { polling: true });
 //   bot.setWebHook(`${url}/bot${Token}`);
 // =============
 
+// Template for weather response
+const rocketHTMLTemplate = rocket => (
+  `☝<b>${rocket.rocket_name}</b>
+    Active: <b>${rocket.active}</b>
+    First flight: <b>${rocket.first_flight}</b>
+    Country: <b>${rocket.country}</b>
+    Description: <b>${rocket.description}</b>
+    Wikipedia: <a href="${rocket.wikipedia}">link</a>
+  `
+);
+
 bot.onText(/\/rocket (.+)/, (msg, match) => {
   const chatId = msg.chat.id;
   const resp = match[1];
@@ -28,8 +39,15 @@ bot.onText(/\/rocket (.+)/, (msg, match) => {
 bot.onText(/\/rockets/, msg => {
   const chatId = msg.chat.id;
   axios.get('https://api.spacexdata.com/v3/rockets')
-    .then(resp => console.log(resp.data));
-  bot.sendMessage(chatId, resp);
+    .then(resp => {
+      for (const rocket of resp.data) {
+        bot.sendMessage(chatId, rocketHTMLTemplate(rocket), { parse_mode: 'HTML' });
+      }
+    })
+    .catch(err => {
+      bot.sendMessage(chatId, 'Ooops...I could get weather information about rockets');
+      console.log(err);
+    });
 });
 
 // bot.on('message', msg => {

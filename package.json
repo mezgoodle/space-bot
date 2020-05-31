@@ -7,7 +7,7 @@
     "start": "node .",
     "test": "eslint ./",
     "lint": "eslint ./",
-    "lint:fix": "eslint ./ --fix",
+    "lint:fix": "eslint ./ --fix"
   },
   "repository": {
     "type": "git",
