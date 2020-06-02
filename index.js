@@ -4,30 +4,10 @@ const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const { Token } = require('./config');
 
-const type = {
-  'r': {'url': 'https://api.spacexdata.com/v3/rockets', 'template': rocketHTMLTemplate()},
-  'l': {'url': 'https://api.spacexdata.com/v3/launches', 'template': launchHTMLTemplate()},
-};
-
 const emojies = {
   'true': '✔️',
   'false': '❌'
 };
-
-// Create a bot that uses 'polling' to fetch new updates.
-// It`s for development
-const bot = new TelegramBot(Token, { polling: true });
-// Create a bot that uses 'webhook' to get new updates.
-//It`s for production ========
-// const options = {
-//     webHook: {
-//       port: process.env.PORT
-//     }
-//   };
-//   const url = process.env.APP_URL || 'https://weather-bot-mezgoodle.herokuapp.com:443';
-//   const bot = new TelegramBot(Token, options);
-//   bot.setWebHook(`${url}/bot${Token}`);
-// =============
 
 // Template for rocket response
 const rocketHTMLTemplate = rocket => (
@@ -52,6 +32,26 @@ const launchHTMLTemplate = launch => (
   `
 );
 
+const type = {
+  'r': { 'url': 'https://api.spacexdata.com/v3/rockets', 'template': rocketHTMLTemplate() },
+  'l': { 'url': 'https://api.spacexdata.com/v3/launches', 'template': launchHTMLTemplate() },
+};
+
+// Create a bot that uses 'polling' to fetch new updates.
+// It`s for development
+const bot = new TelegramBot(Token, { polling: true });
+// Create a bot that uses 'webhook' to get new updates.
+//It`s for production ========
+// const options = {
+//     webHook: {
+//       port: process.env.PORT
+//     }
+//   };
+//   const url = process.env.APP_URL || 'https://weather-bot-mezgoodle.herokuapp.com:443';
+//   const bot = new TelegramBot(Token, options);
+//   bot.setWebHook(`${url}/bot${Token}`);
+// =============
+
 const getInfo = (url, rocket = null, launch = null, chatId, request = 'r') => {
   if (rocket) {
     axios.get(url + `/${rocket}`)
@@ -68,7 +68,7 @@ const getInfo = (url, rocket = null, launch = null, chatId, request = 'r') => {
         console.log(err);
       });
   } else {
-      axios.get(type[request]['url'])
+    axios.get(type[request]['url'])
       .then(resp => {
         for (const el of resp.data) {
           bot.sendMessage(chatId, type[request]['template'](el), { parse_mode: 'HTML' });
@@ -77,8 +77,8 @@ const getInfo = (url, rocket = null, launch = null, chatId, request = 'r') => {
       .catch(err => {
         bot.sendMessage(chatId, 'Ooops...I couldn\'t get information');
         console.log(err);
-      }); 
-    }
+      });
+  }
 };
 
 bot.onText(/\/rocket (.+)/, (msg, match) => {
