@@ -33,8 +33,8 @@ const launchHTMLTemplate = launch => (
 );
 
 const type = {
-  'r': { 'url': 'https://api.spacexdata.com/v3/rockets', 'template': rocketHTMLTemplate() },
-  'l': { 'url': 'https://api.spacexdata.com/v3/launches', 'template': launchHTMLTemplate() },
+  'r': { 'url': 'https://api.spacexdata.com/v3/rockets', 'template': rocketHTMLTemplate },
+  'l': { 'url': 'https://api.spacexdata.com/v3/launches', 'template': launchHTMLTemplate },
 };
 
 // Create a bot that uses 'polling' to fetch new updates.
