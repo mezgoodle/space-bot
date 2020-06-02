@@ -6,6 +6,7 @@ const { Token } = require('./config');
 
 const urls = {
   'rockets': 'https://api.spacexdata.com/v3/rockets',
+  'launches': 'https://api.spacexdata.com/v3/launches',
 };
 
 const emojies = {
@@ -86,4 +87,12 @@ bot.onText(/\/rocket (.+)/, (msg, match) => {
 bot.onText(/\/rockets/, msg => {
   const chatId = msg.chat.id;
   getInfo(urls['rockets'], null, chatId);
+bot.onText(/\/launches/, msg => {
+  const chatId = msg.chat.id;
+  getInfo(urls['launches'], null, null, chatId, 'l');
+});
+
+bot.onText(/\/nextlaunch/, msg => {
+  const chatId = msg.chat.id;
+  getInfo(urls['launches'], null, 'next', chatId, 'l');
 });
