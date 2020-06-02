@@ -4,9 +4,9 @@ const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const { Token } = require('./config');
 
-const urls = {
-  'rockets': 'https://api.spacexdata.com/v3/rockets',
-  'launches': 'https://api.spacexdata.com/v3/launches',
+const type = {
+  'r': {'url': 'https://api.spacexdata.com/v3/rockets', 'template': rocketHTMLTemplate()},
+  'l': {'url': 'https://api.spacexdata.com/v3/launches', 'template': launchHTMLTemplate()},
 };
 
 const emojies = {
@@ -52,47 +52,60 @@ const launchHTMLTemplate = launch => (
   `
 );
 
-const getInfo = (url, rocket = null, launch = null, chatId, type = 'r') => {
+const getInfo = (url, rocket = null, launch = null, chatId, request = 'r') => {
   if (rocket) {
     axios.get(url + `/${rocket}`)
       .then(resp => bot.sendMessage(chatId, rocketHTMLTemplate(resp.data), { parse_mode: 'HTML' }))
       .catch(err => {
-        bot.sendMessage(chatId, `Ooops...I could get weather information about ${rocket}`);
+        bot.sendMessage(chatId, `Ooops...I could get information about ${rocket}`);
+        console.log(err);
+      });
+  } else if (launch) {
+    axios.get(url + `/${launch}`)
+      .then(resp => bot.sendMessage(chatId, launchHTMLTemplate(resp.data), { parse_mode: 'HTML' }))
+      .catch(err => {
+        bot.sendMessage(chatId, `Ooops...I could get information about ${launch}`);
         console.log(err);
       });
   } else {
-    axios.get(url)
+      axios.get(type[request]['url'])
       .then(resp => {
-        for (const rocket of resp.data) {
-          bot.sendMessage(chatId, rocketHTMLTemplate(rocket), { parse_mode: 'HTML' });
+        for (const el of resp.data) {
+          bot.sendMessage(chatId, type[request]['template'](el), { parse_mode: 'HTML' });
         }
       })
       .catch(err => {
-        bot.sendMessage(chatId, 'Ooops...I could get weather information about rockets');
+        bot.sendMessage(chatId, 'Ooops...I couldn\'t get information');
         console.log(err);
-      });
-  }
+      }); 
+    }
 };
 
 bot.onText(/\/rocket (.+)/, (msg, match) => {
   const chatId = msg.chat.id;
+  const request = 'r';
   const rocket = match[1];
   if (rocket === undefined) {
     bot.sendMessage(chatId, 'Please provide rocket name');
     return;
   }
-  getInfo(urls['rockets'], rocket.toLowerCase(), chatId);
+  getInfo(type[request]['url'], rocket.toLowerCase(), null, chatId, request);
 });
 
 bot.onText(/\/rockets/, msg => {
   const chatId = msg.chat.id;
-  getInfo(urls['rockets'], null, chatId);
+  const request = 'r';
+  getInfo(type[request]['url'], null, null, chatId, request);
+});
+
 bot.onText(/\/launches/, msg => {
   const chatId = msg.chat.id;
-  getInfo(urls['launches'], null, null, chatId, 'l');
+  const request = 'l';
+  getInfo(type[request]['url'], null, null, chatId, request);
 });
 
 bot.onText(/\/nextlaunch/, msg => {
   const chatId = msg.chat.id;
-  getInfo(urls['launches'], null, 'next', chatId, 'l');
+  const request = 'l';
+  getInfo(type[request]['url'], null, 'next', chatId, request);
 });
