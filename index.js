@@ -29,6 +29,7 @@ const launchHTMLTemplate = launch => (
    🔥Launch date: <b>${launch.launch_date_local}</b>
    🕓Last date update: <b>${launch.last_date_update}</b>
    📚Details: <b>${launch.details}</b>
+   🔗Site: <a href="${launch.links.reddit_launch}">link</a>
   `
 );
 
