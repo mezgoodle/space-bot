@@ -28,7 +28,7 @@ const bot = new TelegramBot(Token, { polling: true });
 //   bot.setWebHook(`${url}/bot${Token}`);
 // =============
 
-// Template for weather response
+// Template for rocket response
 const rocketHTMLTemplate = rocket => (
   `🚀<b>${rocket.rocket_name}</b>
    🆔Rocket ID: ${rocket.rocket_id}
@@ -40,7 +40,18 @@ const rocketHTMLTemplate = rocket => (
   `
 );
 
-const getInfo = (url, rocket = null, chatId) => {
+// Template for launch response
+const launchHTMLTemplate = launch => (
+  `🚀<b>${launch.mission_name}</b>
+   🆔Rocket name: ${launch.rocket.rocket_name}
+    Upcoming: ${emojies[launch.upcoming]}
+   🔥Launch date: <b>${launch.launch_date_local}</b>
+   🕓Last date update: <b>${launch.last_date_update}</b>
+   📚Details: <b>${launch.details}</b>
+  `
+);
+
+const getInfo = (url, rocket = null, launch = null, chatId, type = 'r') => {
   if (rocket) {
     axios.get(url + `/${rocket}`)
       .then(resp => bot.sendMessage(chatId, rocketHTMLTemplate(resp.data), { parse_mode: 'HTML' }))
