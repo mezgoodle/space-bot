@@ -53,17 +53,34 @@ const bot = new TelegramBot(Token, { polling: true });
 //   bot.setWebHook(`${url}/bot${Token}`);
 // =============
 
+const clearData = element => {
+  for (const key in element) {
+    if (Object.prototype.hasOwnProperty.call(element, key)) {
+      if (element[key] === null) {
+        element[key] = 'empty';
+      }
+    }
+  }
+  return element;
+};
+
 const getInfo = (url, rocket = null, launch = null, chatId, request = 'r') => {
   if (rocket) {
     axios.get(url + `/${rocket}`)
-      .then(resp => bot.sendMessage(chatId, rocketHTMLTemplate(resp.data), { parse_mode: 'HTML' }))
+      .then(resp => {
+        resp.data = clearData(resp.data);
+        bot.sendMessage(chatId, rocketHTMLTemplate(resp.data), { parse_mode: 'HTML' });
+      })
       .catch(err => {
         bot.sendMessage(chatId, `Ooops...I could get information about ${rocket}`);
         console.log(err);
       });
   } else if (launch) {
     axios.get(url + `/${launch}`)
-      .then(resp => bot.sendMessage(chatId, launchHTMLTemplate(resp.data), { parse_mode: 'HTML' }))
+      .then(resp => {
+        resp.data = clearData(resp.data);
+        bot.sendMessage(chatId, launchHTMLTemplate(resp.data), { parse_mode: 'HTML' });
+      })
       .catch(err => {
         bot.sendMessage(chatId, `Ooops...I could get information about ${launch}`);
         console.log(err);
@@ -71,7 +88,8 @@ const getInfo = (url, rocket = null, launch = null, chatId, request = 'r') => {
   } else {
     axios.get(type[request]['url'])
       .then(resp => {
-        for (const el of resp.data) {
+        for (let el of resp.data) {
+          el = clearData(el);
           bot.sendMessage(chatId, type[request]['template'](el), { parse_mode: 'HTML' });
         }
       })
