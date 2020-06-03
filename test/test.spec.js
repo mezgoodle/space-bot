@@ -11,7 +11,7 @@ describe.each(data.api_telegram)('Testing Telegram API:', (name, method, data, e
   });
 });
 
-describe.each(data.api_space)('Testing Telegram API:', (name, variant, element, expected) => {
+describe.each(data.api_space)('Testing Space API:', (name, variant, element, expected) => {
   test(name, () => {
     fetchAPISPace(variant).then(data => {
       expect(data[0][element]).toEqual(expected);
