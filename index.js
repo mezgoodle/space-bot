@@ -110,3 +110,32 @@ bot.onText(/\/nextlaunch/, msg => {
   const request = 'l';
   getInfo(type[request]['next'], null, 'next', chatId, request);
 });
+
+// Listener (handler) for telegram's /start event
+bot.onText(/\/start/, msg => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(
+    chatId,
+    `Welcome at <b>Space Bot</b>, thank you for using this bot
+Type /help for looking for available commands
+    `, { parse_mode: 'HTML' }
+  );
+});
+
+// Listener (handler) for telegram's /help event
+bot.onText(/\/help/, msg => {
+  const chatId = msg.chat.id;
+  const response = `
+Hi!
+Here you can see commands that you can type for this bot:
+/rocket <b>id</b> - get information about rocket.
+/rockets - get information about all rockets.
+/launches - get information about next 4 launches.
+/nextlaunch - get information about next launch.
+/help - look for available commands.
+    `;
+  bot.sendMessage(chatId, response, { parse_mode: 'HTML' });
+});
+
+// Listen for errors
+bot.on('polling_error', err => console.log(err));
