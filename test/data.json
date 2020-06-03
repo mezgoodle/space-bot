@@ -4,7 +4,7 @@
             "Information about rockets", "rockets", "id", 1
         ],
         [
-            "Information about upcoming launches", "launches/upcoming?limit=3", "upcoming", true
+            "Information about upcoming launches", "launches/upcoming?limit=4", "upcoming", true
         ]
     ],
     "api_telegram": [
