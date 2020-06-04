@@ -5,6 +5,9 @@
         ],
         [
             "Information about upcoming launches", "launches/upcoming?limit=4", "upcoming", true
+        ],
+        [
+            "Information about missions", "missions", "mission_name", "Thaicom"
         ]
     ],
     "api_telegram": [
