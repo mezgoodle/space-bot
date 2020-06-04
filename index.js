@@ -2,7 +2,7 @@
 
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
-const { Token } = require('./config');
+const { Token } = require('./util/config');
 
 const emojies = {
   'true': '✔️',
@@ -35,6 +35,7 @@ const launchHTMLTemplate = launch => (
 
 const type = {
   'r': { 'url': 'https://api.spacexdata.com/v3/rockets', 'template': rocketHTMLTemplate },
+  'm': { 'url': 'https://api.spacexdata.com/v3/missions', 'template': rocketHTMLTemplate },
   'l': { 'url': 'https://api.spacexdata.com/v3/launches/upcoming?limit=4', 'next': 'https://api.spacexdata.com/v3/launches', 'template': launchHTMLTemplate },
 };
 
@@ -54,13 +55,10 @@ const bot = new TelegramBot(Token, { polling: true });
 // =============
 
 const clearData = element => {
-  for (const key in element) {
-    if (Object.prototype.hasOwnProperty.call(element, key)) {
-      if (element[key] === null) {
+  for (const key in element)
+    if (Object.prototype.hasOwnProperty.call(element, key))
+      if (element[key] === null)
         element[key] = 'empty';
-      }
-    }
-  }
   return element;
 };
 
@@ -127,6 +125,12 @@ bot.onText(/\/nextlaunch/, msg => {
   const chatId = msg.chat.id;
   const request = 'l';
   getInfo(type[request]['next'], null, 'next', chatId, request);
+});
+
+bot.onText(/\/missions/, msg => {
+  const chatId = msg.chat.id;
+  const request = 'l';
+  getInfo(type[request]['url'], null, null, chatId, request);
 });
 
 // Listener (handler) for telegram's /start event
