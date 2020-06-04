@@ -3,35 +3,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const { Token } = require('./util/config');
-
-const emojies = {
-  'true': '✔️',
-  'false': '❌'
-};
-
-// Template for rocket response
-const rocketHTMLTemplate = rocket => (
-  `🚀<b>${rocket.rocket_name}</b>
-   🆔Rocket ID: ${rocket.rocket_id}
-    Active: ${emojies[rocket.active]}
-   🔥First flight: <b>${rocket.first_flight}</b>
-   🏠Country: <b>${rocket.country}</b>
-   📚Description: <b>${rocket.description}</b>
-   🔗Wikipedia: <a href="${rocket.wikipedia}">link</a>
-  `
-);
-
-// Template for launch response
-const launchHTMLTemplate = launch => (
-  `🚀<b>${launch.mission_name}</b>
-   🆔Rocket name: ${launch.rocket.rocket_name}
-    Upcoming: ${emojies[launch.upcoming]}
-   🔥Launch date: <b>${launch.launch_date_local}</b>
-   🕓Last date update: <b>${launch.last_date_update}</b>
-   📚Details: <b>${launch.details}</b>
-   🔗Site: <a href="${launch.links.reddit_launch}">link</a>
-  `
-);
+const { rocketHTMLTemplate, launchHTMLTemplate, missionHTMLTemplate } = require('./util/templates');
 
 const type = {
   'r': { 'url': 'https://api.spacexdata.com/v3/rockets', 'template': rocketHTMLTemplate },
