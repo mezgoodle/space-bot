@@ -7,7 +7,7 @@ const { rocketHTMLTemplate, launchHTMLTemplate, missionHTMLTemplate } = require(
 
 const type = {
   'r': { 'url': 'https://api.spacexdata.com/v3/rockets', 'template': rocketHTMLTemplate },
-  'm': { 'url': 'https://api.spacexdata.com/v3/missions', 'template': rocketHTMLTemplate },
+  'm': { 'url': 'https://api.spacexdata.com/v3/missions', 'template': missionHTMLTemplate },
   'l': { 'url': 'https://api.spacexdata.com/v3/launches/upcoming?limit=4', 'next': 'https://api.spacexdata.com/v3/launches', 'template': launchHTMLTemplate },
 };
 
@@ -101,7 +101,7 @@ bot.onText(/\/nextlaunch/, msg => {
 
 bot.onText(/\/missions/, msg => {
   const chatId = msg.chat.id;
-  const request = 'l';
+  const request = 'm';
   getInfo(type[request]['url'], null, null, chatId, request);
 });
 
@@ -125,6 +125,7 @@ Here you can see commands that you can type for this bot:
 /rocket <b>id</b> - get information about rocket.
 /rockets - get information about all rockets.
 /launches - get information about next 4 launches.
+/missions - get information about missions.
 /nextlaunch - get information about next launch.
 /help - look for available commands.
     `;

@@ -27,3 +27,13 @@ const launchHTMLTemplate = launch => (
     `
 );
 
+const missionHTMLTemplate = mission => (
+  `🚀<b>${mission.mission_name}</b>
+    🆔Mission ID: ${mission.mission_id}
+    👷Manufacturers: ${mission.manufacturers}
+    📚Description: <b>${mission.description}</b>
+    🔗Site: <a href="${mission.website}">link</a>
+      `
+);
+
+module.exports = { rocketHTMLTemplate, launchHTMLTemplate, missionHTMLTemplate };
