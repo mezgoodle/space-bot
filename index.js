@@ -11,15 +11,8 @@ const type = {
   'l': { 'url': 'https://api.spacexdata.com/v3/launches/upcoming?limit=4', 'next': 'https://api.spacexdata.com/v3/launches', 'template': launchHTMLTemplate },
 };
 
-// Create a bot that uses 'webhook' to get new updates.
-const options = {
-    webHook: {
-      port: process.env.PORT
-    }
-  };
-  const url = process.env.APP_URL || 'https://weather-bot-mezgoodle.herokuapp.com:443';
-  const bot = new TelegramBot(Token, options);
-  bot.setWebHook(`${url}/bot${Token}`);
+// Create a bot that uses 'polling' to fetch new updates.
+const bot = new TelegramBot(Token, { polling: true });
 
 const clearData = element => {
   for (const key in element)
