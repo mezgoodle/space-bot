@@ -150,6 +150,8 @@ Here you can see commands that you can type for this bot:
 /launches - get information about next 4 launches.
 /missions - get information about missions.
 /nextlaunch - get information about next launch.
+/launchpads - get information about launchpads.
+/launchpad <b>site id</b> - get information about launchpad.
 /help - look for available commands.
     `;
   bot.sendMessage(chatId, response, { parse_mode: 'HTML' });
