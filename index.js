@@ -28,7 +28,7 @@ const clearData = element => {
   return element;
 };
 
-const getInfo = (url, rocket = null, launch = null, chatId, request = 'r') => {
+const getInfo = (url, rocket = null, launch = null, launchpad = null, chatId, request = 'r') => {
   if (rocket) {
     axios.get(url + `/${rocket}`)
       .then(resp => {
@@ -47,6 +47,17 @@ const getInfo = (url, rocket = null, launch = null, chatId, request = 'r') => {
       })
       .catch(err => {
         bot.sendMessage(chatId, `Ooops...I could get information about ${launch}`);
+        console.log(err);
+      });
+  } else if (launchpad) {
+    axios.get(url + `/${launchpad}`)
+      .then(resp => {
+        resp.data = clearData(resp.data);
+        bot.sendMessage(chatId, launchPadHTMLTemplate(resp.data), { parse_mode: 'HTML' });
+        bot.sendLocation(chatId, resp.data.location.latitude, resp.data.location.longitude);
+      })
+      .catch(err => {
+        bot.sendMessage(chatId, `Ooops...I could get information about ${launchpad}`);
         console.log(err);
       });
   } else {
@@ -72,38 +83,50 @@ bot.onText(/\/rocket (.+)/, (msg, match) => {
     bot.sendMessage(chatId, 'Please provide rocket name');
     return;
   }
-  getInfo(type[request]['url'], rocket.toLowerCase(), null, chatId, request);
+  getInfo(type[request]['url'], rocket.toLowerCase(), null, null, chatId, request);
 });
 
 bot.onText(/\/rockets/, msg => {
   const chatId = msg.chat.id;
   const request = 'r';
-  getInfo(type[request]['url'], null, null, chatId, request);
+  getInfo(type[request]['url'], null, null, null, chatId, request);
 });
 
 bot.onText(/\/launches/, msg => {
   const chatId = msg.chat.id;
   const request = 'l';
-  getInfo(type[request]['url'], null, null, chatId, request);
+  getInfo(type[request]['url'], null, null, null, chatId, request);
 });
 
 bot.onText(/\/nextlaunch/, msg => {
   const chatId = msg.chat.id;
   const request = 'l';
-  getInfo(type[request]['next'], null, 'next', chatId, request);
+  getInfo(type[request]['next'], null, 'next', null, chatId, request);
 });
 
 bot.onText(/\/missions/, msg => {
   const chatId = msg.chat.id;
   const request = 'm';
-  getInfo(type[request]['url'], null, null, chatId, request);
+  getInfo(type[request]['url'], null, null, null, chatId, request);
 });
 
 bot.onText(/\/launchpads/, msg => {
   const chatId = msg.chat.id;
   const request = 'lp';
-  getInfo(type[request]['url'], null, null, chatId, request);
+  getInfo(type[request]['url'], null, null, null, chatId, request);
 });
+
+bot.onText(/\/launchpad (.+)/, (msg, match) => {
+  const chatId = msg.chat.id;
+  const request = 'lp';
+  const launchpad = match[1];
+  if (launchpad === undefined) {
+    bot.sendMessage(chatId, 'Please provide rocket name');
+    return;
+  }
+  getInfo(type[request]['url'], null, null, launchpad.toLowerCase(), chatId, request);
+});
+
 
 // Listener (handler) for telegram's /start event
 bot.onText(/\/start/, msg => {
