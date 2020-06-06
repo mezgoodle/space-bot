@@ -18,12 +18,13 @@ const type = {
 };
 
 // Create a bot that uses 'webhook' to get new updates.
+// const bot = new TelegramBot(Token, { polling: true });
 const options = {
   webHook: {
     port: process.env.PORT
   }
 };
-const url = process.env.APP_URL || 'https://weather-bot-mezgoodle.herokuapp.com:443';
+const url = process.env.APP_URL || '';
 const bot = new TelegramBot(Token, options);
 bot.setWebHook(`${url}/bot${Token}`);
 
