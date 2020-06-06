@@ -36,4 +36,20 @@ const missionHTMLTemplate = mission => (
       `
 );
 
-module.exports = { rocketHTMLTemplate, launchHTMLTemplate, missionHTMLTemplate };
+const launchPadHTMLTemplate = launchpad => (
+  `🌎<b>${launchpad.location.name}, ${launchpad.location.region}</b>
+     🆔Site ID: ${launchpad.site_id}
+     📃Status: <b>${launchpad.status}</b>
+     🔥Successful launches: <b>${launchpad.successful_launches}</b>
+     📚Details: <b>${launchpad.details}</b>
+     🔗Site: <a href="${launchpad.wikipedia}">link</a>
+    `
+);
+
+
+module.exports = {
+  rocketHTMLTemplate,
+  launchHTMLTemplate,
+  missionHTMLTemplate,
+  launchPadHTMLTemplate
+};
