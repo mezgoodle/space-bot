@@ -3,10 +3,16 @@
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const { Token } = require('./util/config');
-const { rocketHTMLTemplate, launchHTMLTemplate, missionHTMLTemplate } = require('./util/templates');
+const {
+  rocketHTMLTemplate,
+  launchHTMLTemplate,
+  missionHTMLTemplate,
+  launchPadHTMLTemplate
+} = require('./util/templates');
 
 const type = {
   'r': { 'url': 'https://api.spacexdata.com/v3/rockets', 'template': rocketHTMLTemplate },
+  'lp': { 'url': 'https://api.spacexdata.com/v3/launchpads', 'template': launchPadHTMLTemplate },
   'm': { 'url': 'https://api.spacexdata.com/v3/missions', 'template': missionHTMLTemplate },
   'l': { 'url': 'https://api.spacexdata.com/v3/launches/upcoming?limit=4', 'next': 'https://api.spacexdata.com/v3/launches', 'template': launchHTMLTemplate },
 };
@@ -29,7 +35,7 @@ const clearData = element => {
   return element;
 };
 
-const getInfo = (url, rocket = null, launch = null, chatId, request = 'r') => {
+const getInfo = (url, rocket = null, launch = null, launchpad = null, chatId, request = 'r') => {
   if (rocket) {
     axios.get(url + `/${rocket}`)
       .then(resp => {
@@ -48,6 +54,17 @@ const getInfo = (url, rocket = null, launch = null, chatId, request = 'r') => {
       })
       .catch(err => {
         bot.sendMessage(chatId, `Ooops...I could get information about ${launch}`);
+        console.log(err);
+      });
+  } else if (launchpad) {
+    axios.get(url + `/${launchpad}`)
+      .then(resp => {
+        resp.data = clearData(resp.data);
+        bot.sendMessage(chatId, launchPadHTMLTemplate(resp.data), { parse_mode: 'HTML' });
+        bot.sendLocation(chatId, resp.data.location.latitude, resp.data.location.longitude);
+      })
+      .catch(err => {
+        bot.sendMessage(chatId, `Ooops...I could get information about ${launchpad}`);
         console.log(err);
       });
   } else {
@@ -73,32 +90,50 @@ bot.onText(/\/rocket (.+)/, (msg, match) => {
     bot.sendMessage(chatId, 'Please provide rocket name');
     return;
   }
-  getInfo(type[request]['url'], rocket.toLowerCase(), null, chatId, request);
+  getInfo(type[request]['url'], rocket.toLowerCase(), null, null, chatId, request);
 });
 
 bot.onText(/\/rockets/, msg => {
   const chatId = msg.chat.id;
   const request = 'r';
-  getInfo(type[request]['url'], null, null, chatId, request);
+  getInfo(type[request]['url'], null, null, null, chatId, request);
 });
 
 bot.onText(/\/launches/, msg => {
   const chatId = msg.chat.id;
   const request = 'l';
-  getInfo(type[request]['url'], null, null, chatId, request);
+  getInfo(type[request]['url'], null, null, null, chatId, request);
 });
 
 bot.onText(/\/nextlaunch/, msg => {
   const chatId = msg.chat.id;
   const request = 'l';
-  getInfo(type[request]['next'], null, 'next', chatId, request);
+  getInfo(type[request]['next'], null, 'next', null, chatId, request);
 });
 
 bot.onText(/\/missions/, msg => {
   const chatId = msg.chat.id;
   const request = 'm';
-  getInfo(type[request]['url'], null, null, chatId, request);
+  getInfo(type[request]['url'], null, null, null, chatId, request);
 });
+
+bot.onText(/\/launchpads/, msg => {
+  const chatId = msg.chat.id;
+  const request = 'lp';
+  getInfo(type[request]['url'], null, null, null, chatId, request);
+});
+
+bot.onText(/\/launchpad (.+)/, (msg, match) => {
+  const chatId = msg.chat.id;
+  const request = 'lp';
+  const launchpad = match[1];
+  if (launchpad === undefined) {
+    bot.sendMessage(chatId, 'Please provide rocket name');
+    return;
+  }
+  getInfo(type[request]['url'], null, null, launchpad.toLowerCase(), chatId, request);
+});
+
 
 // Listener (handler) for telegram's /start event
 bot.onText(/\/start/, msg => {
@@ -122,6 +157,8 @@ Here you can see commands that you can type for this bot:
 /launches - get information about next 4 launches.
 /missions - get information about missions.
 /nextlaunch - get information about next launch.
+/launchpads - get information about launchpads.
+/launchpad <b>site id</b> - get information about launchpad.
 /help - look for available commands.
     `;
   bot.sendMessage(chatId, response, { parse_mode: 'HTML' });
@@ -129,3 +166,5 @@ Here you can see commands that you can type for this bot:
 
 // Listen for errors
 bot.on('polling_error', err => console.log(err));
+
+console.log('Bot is working...');
