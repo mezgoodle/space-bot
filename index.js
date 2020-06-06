@@ -17,9 +17,6 @@ const type = {
   'l': { 'url': 'https://api.spacexdata.com/v3/launches/upcoming?limit=4', 'next': 'https://api.spacexdata.com/v3/launches', 'template': launchHTMLTemplate },
 };
 
-// Create a bot that uses 'polling' to fetch new updates.
-const bot = new TelegramBot(Token, { polling: true });
-
 const clearData = element => {
   for (const key in element)
     if (Object.prototype.hasOwnProperty.call(element, key))
