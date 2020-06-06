@@ -7,6 +7,7 @@ const { rocketHTMLTemplate, launchHTMLTemplate, missionHTMLTemplate } = require(
 
 const type = {
   'r': { 'url': 'https://api.spacexdata.com/v3/rockets', 'template': rocketHTMLTemplate },
+  'lp': { 'url': 'https://api.spacexdata.com/v3/launchpads', 'template': rocketHTMLTemplate },
   'm': { 'url': 'https://api.spacexdata.com/v3/missions', 'template': missionHTMLTemplate },
   'l': { 'url': 'https://api.spacexdata.com/v3/launches/upcoming?limit=4', 'next': 'https://api.spacexdata.com/v3/launches', 'template': launchHTMLTemplate },
 };
@@ -90,6 +91,12 @@ bot.onText(/\/nextlaunch/, msg => {
 bot.onText(/\/missions/, msg => {
   const chatId = msg.chat.id;
   const request = 'm';
+  getInfo(type[request]['url'], null, null, chatId, request);
+});
+
+bot.onText(/\/launchpads/, msg => {
+  const chatId = msg.chat.id;
+  const request = 'lp';
   getInfo(type[request]['url'], null, null, chatId, request);
 });
 
