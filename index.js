@@ -3,11 +3,16 @@
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const { Token } = require('./util/config');
-const { rocketHTMLTemplate, launchHTMLTemplate, missionHTMLTemplate } = require('./util/templates');
+const {
+  rocketHTMLTemplate,
+  launchHTMLTemplate,
+  missionHTMLTemplate,
+  launchPadHTMLTemplate
+} = require('./util/templates');
 
 const type = {
   'r': { 'url': 'https://api.spacexdata.com/v3/rockets', 'template': rocketHTMLTemplate },
-  'lp': { 'url': 'https://api.spacexdata.com/v3/launchpads', 'template': rocketHTMLTemplate },
+  'lp': { 'url': 'https://api.spacexdata.com/v3/launchpads', 'template': launchPadHTMLTemplate },
   'm': { 'url': 'https://api.spacexdata.com/v3/missions', 'template': missionHTMLTemplate },
   'l': { 'url': 'https://api.spacexdata.com/v3/launches/upcoming?limit=4', 'next': 'https://api.spacexdata.com/v3/launches', 'template': launchHTMLTemplate },
 };
@@ -129,3 +134,5 @@ Here you can see commands that you can type for this bot:
 
 // Listen for errors
 bot.on('polling_error', err => console.log(err));
+
+console.log('Bot is working...');
