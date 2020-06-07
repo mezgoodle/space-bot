@@ -24,7 +24,7 @@ const options = {
     port: process.env.PORT
   }
 };
-const url = process.env.APP_URL || '';
+const url = process.env.APP_URL || 'https://space-bot-mezgoodle.herokuapp.com/';
 const bot = new TelegramBot(Token, options);
 bot.setWebHook(`${url}/bot${Token}`);
 
