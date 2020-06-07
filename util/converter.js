@@ -10,4 +10,13 @@ const convertTime = timestamp => {
   return formattedTime;
 };
 
-module.exports = { convertTime };
+const convertDate = timestamp => {
+  const date = new Date(timestamp * 1000);
+  const month = months[date.getMonth()];
+  const day = String(date.getDate()).padStart(2, '0');
+  const year = date.getFullYear();
+  const output = month + ' ' + day + ',' + year;
+  return output;
+};
+
+module.exports = { convertTime, convertDate };
