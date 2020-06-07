@@ -1,6 +1,6 @@
 'use strict';
 
-const {convertTime} = require('./converter');
+const { convertTime } = require('./converter');
 
 const emojies = {
   'true': '✔️',
