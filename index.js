@@ -28,7 +28,6 @@ const url = process.env.APP_URL || '';
 const bot = new TelegramBot(Token, options);
 bot.setWebHook(`${url}/bot${Token}`);
 
-
 const clearData = element => {
   for (const key in element)
     if (Object.prototype.hasOwnProperty.call(element, key))
