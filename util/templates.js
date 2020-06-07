@@ -1,6 +1,6 @@
 'use strict';
 
-const { convertTime } = require('./converter');
+const { convertTime, convertDate } = require('./converter');
 
 const emojies = {
   'true': '✔️',
@@ -22,7 +22,7 @@ const launchHTMLTemplate = launch => (
   `🚀<b>${launch.mission_name}</b>
      🆔Rocket name: ${launch.rocket.rocket_name}
       Upcoming: ${emojies[launch.upcoming]}
-     🔥Launch date: <b>${convertTime(launch.launch_date_unix)}</b>
+     🔥Launch date(local): <b>${convertTime(launch.launch_date_unix)}, ${convertDate(launch.launch_date_unix)}</b>
      🕓Last date update(local): <b>${launch.last_date_update}</b>
      📚Details: <b>${launch.details}</b>
      🔗Site: <a href="${launch.links.reddit_launch}">link</a>
