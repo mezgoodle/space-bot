@@ -1,6 +1,6 @@
 # Space bot
 
-Hi! This is the bot in Telegram for showing *information* from **SpaceX API**. Built on Node.js.
+Hi! This is the bot in Telegram for showing *information* from [**SpaceX API**](https://github.com/r-spacex/SpaceX-API). Built on Node.js.
 
 >[link](https://t.me/spacex_mezgoodle_bot) to bot
 
