@@ -35,17 +35,17 @@ After another rocket launch [SpaceX](https://www.spacex.com/), I decided to look
 
 ## Screenshots
 
-![Screenshot 1](https://github.com/mezgoodle/images/blob/master/space-bot1.png)
+![Screenshot 1](https://raw.githubusercontent.com/mezgoodle/images/master/space-bot1.png)
 
-![Screenshot 2](https://github.com/mezgoodle/images/blob/master/space-bot2.png)
+![Screenshot 2](https://raw.githubusercontent.com/mezgoodle/images/master/space-bot2.png)
 
-![Screenshot 3](https://github.com/mezgoodle/images/blob/master/space-bot3.png)
+![Screenshot 3](https://raw.githubusercontent.com/mezgoodle/images/master/space-bot3.png)
 
-![Screenshot 4](https://github.com/mezgoodle/images/blob/master/space-bot4.png)
+![Screenshot 4](https://raw.githubusercontent.com/mezgoodle/images/master/space-bot4.png)
 
-![Screenshot 5](https://github.com/mezgoodle/images/blob/master/space-bot5.png)
+![Screenshot 5](https://raw.githubusercontent.com/mezgoodle/images/master/space-bot5.png)
 
-![Screenshot 6](https://github.com/mezgoodle/images/blob/master/space-bot5.png)
+![Screenshot 6](https://raw.githubusercontent.com/mezgoodle/images/master/space-bot6.png)
 
 ## Tech framework used
 
