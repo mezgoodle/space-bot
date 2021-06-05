@@ -4,34 +4,9 @@ Hi! This is the bot in Telegram for showing *information* from [**SpaceX API**](
 
 >[link](https://t.me/spacex_mezgoodle_bot) to bot
 
-# Table of contents
-  * [Motivation](#motivation)
-  * [Build status](#build-status)
-  * [Code style](#code-style)
-  * [Screenshots](#screenshots)
-  * [Tech framework used](#tech-framework-used)
-  * [Dependencies](#dependencies)
-  * [Features](#features)
-  * [Code Example](#code-example)
-  * [Installation](#installation)
-  * [API Reference](#api-reference)
-  * [Tests](#tests)
-  * [Deploy](#deploy)
-  * [Contribute](#contribute)
-  * [Contact](#contact)
-  * [License](#license)
-
 ## Motivation
 
 After another rocket launch [SpaceX](https://www.spacex.com/), I decided to look for the [API](https://en.wikipedia.org/wiki/Application_programming_interface). At the same time, I found a video on [YouTube](https://www.youtube.com/) showing how to use **SpaceX API** along with [GraphQL](https://graphql.org/). Since I am interested in developing [Telegram](https://telegram.org/) bots, I decided to make another one. :smiley:
-
-## Build status
-
-[![Build Status](https://travis-ci.com/mezgoodle/space-bot.svg?branch=master)](https://travis-ci.com/mezgoodle/space-bot)
-
-## Code style
-
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/08a26f3bd7e64d4597c2f016a3d45eb6)](https://www.codacy.com/manual/mezgoodle/space-bot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mezgoodle/space-bot&amp;utm_campaign=Badge_Grade)
 
 ## Screenshots
 
